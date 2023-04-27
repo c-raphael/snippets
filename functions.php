@@ -39,3 +39,26 @@ function custom_upload_dir( $upload_dir ) {
     return $upload_dir;
 }
 add_filter( 'upload_dir', 'custom_upload_dir' );
+
+
+
+// Register Theme Sections
+/* to get: <div><?php echo get_theme_mod( 'custom_copywrite_text' ); ?></div> */
+function copyright_theme_settings($wp_customize) {
+    $wp_customize->add_section('custom_copywrite_section', array(
+        'title' => __('Custom Copywrite Section', 'custom_theme'),
+        'priority' => 30,
+    ));
+
+    $wp_customize->add_setting('custom_copywrite_text', array(
+        'default' => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('custom_copywrite_text', array(
+        'label' => __('Copywrite Text', 'custom_theme'),
+        'section' => 'custom_copywrite_section',
+        'type' => 'text',
+    ));
+}
+add_action('customize_register', 'copyright_theme_settings');
